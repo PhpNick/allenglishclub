@@ -1,0 +1,29 @@
+@media (min-width: 800px) {
+    .container{
+        max-width: 800px;
+    }
+}
+
+body {
+	counter-reset: count;
+}
+
+.counter::before {
+	counter-increment: count; 
+	font-weight: bold;
+	display: block;
+	content: counter(count) "";
+}
+
+#loader {
+	opacity: .5;
+	width: 100px;
+	height: 100px;
+	margin-top: -50px;
+		margin-left: -50px;
+	position: fixed;
+	top: 50%;
+		left: 50%;
+		z-index: 999;
+		visibility: hidden;
+}
