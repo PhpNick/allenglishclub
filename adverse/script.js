@@ -45,6 +45,7 @@ Vue.component('exercise', {
       showinc: false,
       showcor: false,
       list: [],
+      drag: false
     }
   },
   methods: {
@@ -76,16 +77,31 @@ Vue.component('exercise', {
   }, 
   mounted() {
     this.list = this.shuffle(this.sentence.split(" "));
-  }, 
+  },
+
+  computed: {
+    dragOptions() {
+      return {
+        animation: 200,
+        group: "sentence",
+        disabled: false,
+        ghostClass: "ghost"
+      };
+    }
+  },   
   template: `
   <div>
-      <draggable class="list-inline border p-2 flex-fill my-2" :list="list" group="sentence" @change="log" style="min-height: 60px;">
+      <draggable class="list-inline border p-2 flex-fill my-2" :list="list" v-bind="dragOptions" @start="drag = true"
+        @end="drag = false" group="sentence" @change="log" style="min-height: 60px;">
+        <transition-group type="transition" :name="!drag ? 'flip-list' : null">
         <div
           style="cursor: move;"
-          class="list-inline-item btn btn-outline-primary my-1"
-          v-for="word in list">
+          class="list-inline-item my-1 button-exercise"
+          v-for="(word, index) in list"
+          :key="index">
           {{ word }}
         </div>
+        </transition-group>
       </draggable>
 
   <div class="d-flex justify-content-end align-items-baseline">
