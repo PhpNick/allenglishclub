@@ -44,6 +44,8 @@ Vue.component('exercise', {
     return {
       showinc: false,
       showcor: false,
+      isShake: false,
+      isShake2: true,
       list: [],
       drag: false
     }
@@ -65,6 +67,8 @@ Vue.component('exercise', {
     },
 
     check() {
+      this.isShake = !this.isShake;
+      this.isShake2 = !this.isShake2;
       if(this.list.join(" ") == this.sentence) {
         this.showcor = true;
         this.showinc = false;
@@ -105,11 +109,13 @@ Vue.component('exercise', {
       </draggable>
 
   <div class="d-flex justify-content-end align-items-baseline">
-    <div v-if="showinc"><span class="my-0 me-2 text-danger">Incorrect!</span></div>
-    <div v-if="showcor"><span class="my-0 me-2 text-success">Correct!</span>
-    <button-bre-play :href="hrefbre"></button-bre-play>
-    <button-ame-play :href="hrefame"></button-ame-play> 
-    </div>
+      <div :class="{shake: isShake, shake2: isShake2}" v-if="showinc"><span class="my-0 me-2 text-danger">Incorrect!</span></div>
+    <transition name="bounce">
+      <div v-if="showcor" class="me-2"><span class="my-0 me-2 text-success">Correct!</span>
+      <button-bre-play :href="hrefbre"></button-bre-play>
+      <button-ame-play :href="hrefame"></button-ame-play> 
+      </div>
+    </transition>  
     <div><button type="button" class="btn btn-primary btn-sm ms-1" 
     @click="check">
     <img src="/allenglishclub/adverse/img/check.svg" alt="">
